@@ -11,5 +11,5 @@ func UniqInt(s []int) []int {
 		set[i] = Empty{}
 		lst = append(lst, i)
 	}
-    return lst
+	return lst
 }
