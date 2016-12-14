@@ -1,4 +1,4 @@
-package gomill
+package main
 
 type Context struct {
 	done chan struct{}

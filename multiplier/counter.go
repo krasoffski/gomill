@@ -1,11 +1,9 @@
-package gomill
+package main
 
 import (
 	"fmt"
 	"sync"
 )
-
-var WG sync.WaitGroup
 
 type Counter struct {
 	ctx *Context
@@ -13,14 +11,14 @@ type Counter struct {
 	i   int
 }
 
-func NewConunter(ctx *Context) *Counter {
+func NewConunter(ctx *Context, wg *sync.WaitGroup) *Counter {
 	counter := new(Counter)
 	counter.c = make(chan int)
 	counter.ctx = ctx
 
-	WG.Add(1)
+	wg.Add(1)
 	go func() {
-		defer WG.Done()
+		defer wg.Done()
 		done := counter.ctx.GetDone()
 		for {
 			select {
