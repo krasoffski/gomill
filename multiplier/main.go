@@ -8,11 +8,16 @@ import (
 func main() {
 	var wg sync.WaitGroup
 	ctx := NewContext()
-	counter := NewConunter(ctx, &wg)
+
+	counter := NewCounter(ctx, &wg)
 	c := counter.GetSource()
-	fmt.Println(<-c)
-	fmt.Println(<-c)
-	fmt.Println(<-c)
+
+	enlarger := NewEnlarger(ctx, &wg, c, 2)
+	r := enlarger.GetSource()
+
+	fmt.Println(<-r)
+	fmt.Println(<-r)
+	fmt.Println(<-r)
 	ctx.Stop()
 	wg.Wait()
 }

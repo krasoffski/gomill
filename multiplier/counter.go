@@ -11,7 +11,7 @@ type Counter struct {
 	i   int
 }
 
-func NewConunter(ctx *Context, wg *sync.WaitGroup) *Counter {
+func NewCounter(ctx *Context, wg *sync.WaitGroup) *Counter {
 	counter := new(Counter)
 	counter.c = make(chan int)
 	counter.ctx = ctx
