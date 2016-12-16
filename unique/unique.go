@@ -1,3 +1,5 @@
+// Package unique provides a simple function for removing
+// string duplicates from a slice of string.
 package unique
 
 // Strings removes duplicated strings from a slice of strings.
