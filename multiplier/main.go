@@ -10,6 +10,7 @@ func main() {
 	var wg sync.WaitGroup
 
 	factor := flag.Int("factor", 0, "multiplier for enlarger")
+	number := flag.Int("number", 1, "how manu numbers to print")
 	flag.Parse()
 
 	ctx := NewContext()
@@ -20,9 +21,9 @@ func main() {
 	enlarger := NewEnlarger(ctx, &wg, c, *factor)
 	r := enlarger.GetSource()
 
-	fmt.Println(<-r)
-	fmt.Println(<-r)
-	fmt.Println(<-r)
+	for i := 0; i < *number; i++ {
+		fmt.Println(<-r)
+	}
 	ctx.Stop()
 	wg.Wait()
 }
