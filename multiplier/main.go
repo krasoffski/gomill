@@ -10,7 +10,7 @@ func main() {
 	var wg sync.WaitGroup
 
 	factor := flag.Int("factor", 0, "multiplier for enlarger")
-	number := flag.Int("number", 1, "how manu numbers to print")
+	number := flag.Int("number", 1, "how many numbers to print")
 	flag.Parse()
 
 	ctx := NewContext()
