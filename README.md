@@ -14,7 +14,7 @@ $ go test -coverprofile cover.report
 $ go tool cover -html=cover.report -o cover.html
 ```
 
-### To inspect `package`
+### To inspect package
 ```sh
 $ go list -f '{{ .Name }}: {{ .Doc }}'
 unique: Package unique provides a simple function for removing...
