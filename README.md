@@ -1,14 +1,20 @@
 # Miscellaneous Golang experiment library.
 
-## Notes about useful tools:
+## Notes about useful tools
 
-### To check coverage:
+### To lint code and tools
+ * [binstale] - verifies the binaries in your GOPATH/bin are stale or up to date
+ * [go-torch] - flame graph profiler for Go programs
+ * [errcheck] - checks for unchecked errors in go programs
+ * [interfacer] - linter that suggests interface types
+
+### To check coverage
 ```sh
 $ go test -coverprofile cover.report
 $ go tool cover -html=cover.report -o cover.html
 ```
 
-### To inspect `package`:
+### To inspect `package`
 ```sh
 $ go list -f '{{ .Name }}: {{ .Doc }}'
 unique: Package unique provides a simple function for removing...
@@ -34,10 +40,15 @@ unicode/utf8
 ```
 
 
-### To get documentation:
+### To get documentation
 ```sh
 $ go doc 'github.com/krasoffski/gomill/unique' Strings
 func Strings(s []string) []string
     Strings removes duplicated strings from a slice of strings. It returns a new
     slice of strings without duplicates.
 ```
+
+[binstale]: https://github.com/shurcooL/binstale
+[go-torch]: https://github.com/uber/go-torch
+[errcheck]: https://github.com/kisielk/errcheck
+[interfacer]: https://github.com/mvdan/interfacer/
