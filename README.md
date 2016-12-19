@@ -5,16 +5,16 @@
 ### To lint code and tools
  * [binstale] - verifies the binaries in your GOPATH/bin are stale or up to date
  * [go-torch] - flame graph profiler for Go programs
- * [errcheck] - checks for unchecked errors in go programs
+ * [errcheck] - checks for unchecked errors in Go programs
  * [interfacer] - linter that suggests interface types
 
-### To check coverage
+### Checking coverage
 ```sh
 $ go test -coverprofile cover.report
 $ go tool cover -html=cover.report -o cover.html
 ```
 
-### To inspect package
+### Inspecting package
 ```sh
 $ go list -f '{{ .Name }}: {{ .Doc }}'
 unique: Package unique provides a simple function for removing...
@@ -39,7 +39,7 @@ sync
 unicode/utf8
 ```
  
-### To get documentation
+### Getting documentation
 ```sh
 $ go doc 'github.com/krasoffski/gomill/unique' Strings
 func Strings(s []string) []string
@@ -47,7 +47,7 @@ func Strings(s []string) []string
     slice of strings without duplicates.
 ```
 
-### To perform CPU profiling
+### Performing CPU profiling
 Enable profiling in your code.
 
 ```go
