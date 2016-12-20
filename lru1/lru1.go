@@ -21,6 +21,7 @@ func NewCache(size int) *Cache {
 	cache := new(Cache)
 	cache.size = size
 	cache.data = make(map[string]*list.Element)
+	cache.lst = list.New()
 	return cache
 }
 
