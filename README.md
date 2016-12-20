@@ -93,7 +93,7 @@ INFO[14:49:02] Run pprof command: go tool pprof -raw -seconds 30 multiplier mult
 INFO[14:49:02] Writing svg to output.svg
 $ open torch.svg
 ```
-_Note:_ without application load CPU profile might be empty.
+_Note: without application load CPU profile might be empty._
 
 [binstale]: https://github.com/shurcooL/binstale
 [go-torch]: https://github.com/uber/go-torch
