@@ -97,6 +97,20 @@ $ open torch.svg
 ```
 _Note: without application load CPU profile might be empty._
 
+
+### Setting version
+Version defined in the source code of data race example.
+```go
+// Version of race example.
+var Version = "0.1.0
+```
+Inject new version using `-ldflags`.
+```sh
+$ go build -ldflags="-X main.Version=0.2.1"
+$ ./race -version
+Version: 0.2.1
+```
+
 [binstale]: https://github.com/shurcooL/binstale
 [go-torch]: https://github.com/uber/go-torch
 [errcheck]: https://github.com/kisielk/errcheck

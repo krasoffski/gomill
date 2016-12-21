@@ -9,20 +9,9 @@ import (
 	"github.com/krasoffski/gomill/lru1"
 )
 
-const (
-	// Version of application.
-	Version = "0.1.0"
-)
-
 func main() {
 	size := flag.Int("size", 1000, "size of the cache")
-	version := flag.Bool("version", false, "show version")
 	flag.Parse()
-
-	if *version {
-		fmt.Printf("Version: %s", Version)
-		return
-	}
 
 	cache := lru1.NewCache(*size)
 
