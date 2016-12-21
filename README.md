@@ -85,6 +85,8 @@ Showing top 10 nodes out of 95 (cum >= 3180ms)
      100ms  1.77% 53.19%     2670ms 47.34%  fmt.Fprintln
       80ms  1.42% 54.61%       80ms  1.42%  runtime/internal/atomic.Load
       70ms  1.24% 55.85%     3180ms 56.38%  main.main
+(pprof) web
+(pprof) list multiplier
 ```
 What is more, you are able to create a [Flame Graph].
 ```sh

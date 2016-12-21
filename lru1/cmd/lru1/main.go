@@ -2,17 +2,29 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"os"
 
 	"github.com/krasoffski/gomill/lru1"
 )
 
-func main() {
-	//	capacity := flag.Int("size", 1000, "size of the cache")
-	//	flag.Parse()
+const (
+	// Version of application.
+	Version = "0.1.0"
+)
 
-	cache := lru1.NewCache(1000)
+func main() {
+	size := flag.Int("size", 1000, "size of the cache")
+	version := flag.Bool("version", false, "show version")
+	flag.Parse()
+
+	if *version {
+		fmt.Printf("Version: %s", Version)
+		return
+	}
+
+	cache := lru1.NewCache(*size)
 
 	count := 0
 	miss := 0
