@@ -1,5 +1,5 @@
 // race contains data race with resetting the timer.
-// Issue "go run -race race.go" to get warring about data race.
+// Execute "go run -race race.go" to get warring about data race.
 package main
 
 import (
