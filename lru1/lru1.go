@@ -32,7 +32,7 @@ func (c *Cache) Put(key, value string) {
 		delete(c.data, c.lst.Back().Value.(*Item).key)
 		c.lst.Remove(c.lst.Back())
 	}
-	c.data[key] = c.lst.PushFront(&Item{key: key, value: value})
+	c.data[key] = c.lst.PushFront(&Item{key, value})
 }
 
 // Get returns Item from cache by key.
