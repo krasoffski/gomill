@@ -37,4 +37,9 @@ func run(f factory, workers int) {
 		}()
 		wg.Done()
 	}
+
+	go func() {
+		wg.Wait()
+		close(out)
+	}()
 }
