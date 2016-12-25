@@ -1,10 +1,10 @@
 package crawler
 
 type task interface {
-    process()
-    output()
+	process()
+	output()
 }
 
 type factory interface {
-    create(lint string) string
+	create(lint string) task
 }
