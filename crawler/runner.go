@@ -24,4 +24,17 @@ func run(f factory, workers int) {
 		close(in)
 		wg.Done()
 	}()
+
+	out := make(chan task)
+
+	for i := 0; i < workers; i++ {
+		wg.Add(1)
+		go func() {
+			for t := range in {
+				t.process()
+				out <- t
+			}
+		}()
+		wg.Done()
+	}
 }
