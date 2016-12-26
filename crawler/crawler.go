@@ -1,17 +1,18 @@
-package crawler
+package main
 
 import (
 	"fmt"
 	"net/http"
+	"sync"
 )
 
-type task interface {
-	process()
-	output()
+type Tasker interface {
+	Process()
+	Output()
 }
 
-type factory interface {
-	create(lint string) task
+type Manufacturer interface {
+	Create(lint string) Tasker
 }
 
 type HTTPTask struct {
@@ -19,7 +20,7 @@ type HTTPTask struct {
 	ok  bool
 }
 
-func (h *HTTPTask) process() {
+func (h *HTTPTask) Process() {
 	resp, err := http.Get(h.url)
 	if err != nil {
 		h.ok = false
@@ -32,14 +33,21 @@ func (h *HTTPTask) process() {
 	h.ok = false
 }
 
-func (h *HTTPTask) output() {
+func (h *HTTPTask) Output() {
 	fmt.Printf("%s %t\n", h.url, h.ok)
 }
 
-type Factory struct{}
+type Manufacture struct{}
 
-func (f *Factory) create(line string) task {
+func (f *Manufacture) Create(line string) Tasker {
 	h := new(HTTPTask)
 	h.url = line
 	return h
+}
+
+func main() {
+	m := new(Manufacture)
+	wg := new(sync.WaitGroup)
+	p := Producer(m, wg)
+	Consumer(p, wg, 100)
 }

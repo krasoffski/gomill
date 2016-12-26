@@ -1,4 +1,4 @@
-package crawler
+package main
 
 import (
 	"bufio"
@@ -7,14 +7,14 @@ import (
 	"sync"
 )
 
-func producer(f factory, wg *sync.WaitGroup) chan task {
-	in := make(chan task)
+func Producer(m Manufacturer, wg *sync.WaitGroup) chan Tasker {
+	in := make(chan Tasker)
 
 	wg.Add(1)
 	go func() {
 		s := bufio.NewScanner(os.Stdin)
 		for s.Scan() {
-			in <- f.create(s.Text())
+			in <- m.Create(s.Text())
 		}
 		if s.Err() != nil {
 			log.Fatalf("error reading STDIN: %s", s.Err())

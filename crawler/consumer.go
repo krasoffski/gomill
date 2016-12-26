@@ -1,15 +1,15 @@
-package crawler
+package main
 
 import "sync"
 
-func consumer(in chan task, wg *sync.WaitGroup, workers int) {
-	out := make(chan task)
+func Consumer(in chan Tasker, wg *sync.WaitGroup, workers int) {
+	out := make(chan Tasker)
 
 	for i := 0; i < workers; i++ {
 		wg.Add(1)
 		go func() {
 			for t := range in {
-				t.process()
+				t.Process()
 				out <- t
 			}
 		}()
