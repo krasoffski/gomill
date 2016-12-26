@@ -20,4 +20,8 @@ func Consumer(in chan Tasker, wg *sync.WaitGroup, workers int) {
 		wg.Wait()
 		close(out)
 	}()
+
+	for t := range out {
+		t.Output()
+	}
 }
