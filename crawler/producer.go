@@ -7,9 +7,7 @@ import (
 	"sync"
 )
 
-func run(f factory, workers int) {
-	var wg sync.WaitGroup
-
+func producer(f factory, wg *sync.WaitGroup) chan task {
 	in := make(chan task)
 
 	wg.Add(1)
@@ -24,22 +22,5 @@ func run(f factory, workers int) {
 		close(in)
 		wg.Done()
 	}()
-
-	out := make(chan task)
-
-	for i := 0; i < workers; i++ {
-		wg.Add(1)
-		go func() {
-			for t := range in {
-				t.process()
-				out <- t
-			}
-		}()
-		wg.Done()
-	}
-
-	go func() {
-		wg.Wait()
-		close(out)
-	}()
+	return in
 }
