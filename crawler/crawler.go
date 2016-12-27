@@ -3,17 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"sync"
 )
-
-type Tasker interface {
-	Process()
-	Output()
-}
-
-type Manufacturer interface {
-	Create(lint string) Tasker
-}
 
 type HTTPTask struct {
 	url string
@@ -39,7 +29,7 @@ func (h *HTTPTask) Output() {
 
 type Manufacture struct{}
 
-func (f *Manufacture) Create(line string) Tasker {
+func (f *Manufacture) Create(line string) Task {
 	h := new(HTTPTask)
 	h.url = line
 	return h
@@ -47,7 +37,5 @@ func (f *Manufacture) Create(line string) Tasker {
 
 func main() {
 	m := new(Manufacture)
-	wg := new(sync.WaitGroup)
-	p := Producer(m, wg)
-	Consumer(p, wg, 100)
+	Run(m, 100)
 }
