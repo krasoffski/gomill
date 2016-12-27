@@ -42,8 +42,8 @@ func Run(m Manufacturer, workers int) {
 				t.Process()
 				out <- t
 			}
+			wg.Done()
 		}()
-		wg.Done()
 	}
 
 	go func() {
