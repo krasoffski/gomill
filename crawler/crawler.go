@@ -1,9 +1,17 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
+
+	"github.com/fatih/color"
 )
+
+var result = map[bool]string{
+	true:  color.GreenString("PASS"),
+	false: color.RedString("FAIL"),
+}
 
 type HTTPTask struct {
 	url string
@@ -24,7 +32,7 @@ func (h *HTTPTask) Process() {
 }
 
 func (h *HTTPTask) Output() {
-	fmt.Printf("%s %t\n", h.url, h.ok)
+	fmt.Printf("%s %s\n", result[h.ok], h.url)
 }
 
 type Manufacture struct{}
@@ -36,6 +44,8 @@ func (f *Manufacture) Create(line string) Task {
 }
 
 func main() {
+	workers := flag.Int("workers", 1000, "number of workers")
+	flag.Parse()
 	m := new(Manufacture)
-	Run(m, 100)
+	Run(m, *workers)
 }
