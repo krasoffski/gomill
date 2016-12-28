@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"log"
 	"os"
+	"strings"
 	"sync"
 )
 
@@ -24,7 +25,12 @@ func Run(m Manufacturer, workers int) {
 	go func() {
 		s := bufio.NewScanner(os.Stdin)
 		for s.Scan() {
-			in <- m.Create(s.Text())
+			text := strings.TrimSpace(s.Text())
+
+			if text == "" || strings.HasPrefix(text, "#") {
+				continue
+			}
+			in <- m.Create(text)
 		}
 		if s.Err() != nil {
 			log.Fatalf("error reading STDIN: %s", s.Err())
