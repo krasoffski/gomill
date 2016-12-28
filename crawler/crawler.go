@@ -44,7 +44,7 @@ func (h *HTTPTask) Process() {
 }
 
 func (h *HTTPTask) Output() {
-	secs := color.BlueString("[%6.2fs]", h.elapsed.Seconds())
+	secs := color.BlueString("[%7.2fs]", h.elapsed.Seconds())
 	fmt.Printf("%s %s %s\n", result[h.ok], secs, h.url)
 }
 
@@ -95,8 +95,14 @@ func NewManufacture(r io.Reader, bufsize int) *Manufacture {
 func main() {
 	workers := flag.Int("workers", 2, "number of workers")
 	bufsize := flag.Int("bufsize", 0, "size of tasks buffer")
+	example := flag.Int("example", 0, "specify head of moz top, max 500")
+
 	flag.Parse()
-	// TODO: Add builder for mufacture?
-	m := NewManufacture(os.Stdin, *bufsize)
+
+	var reader io.Reader = os.Stdin
+	if *example > 0 {
+		reader = NewMozReader(*example)
+	}
+	m := NewManufacture(reader, *bufsize)
 	Run(m, *workers)
 }
