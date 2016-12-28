@@ -1,10 +1,7 @@
 package main
 
 import (
-	"bufio"
-	"io"
-	"log"
-	"strings"
+	"fmt"
 	"sync"
 )
 
@@ -14,26 +11,20 @@ type Task interface {
 }
 
 type Manufacturer interface {
-	Create(lint string) Task
+	Bufsize() int
+	Create(line string) Task
+	URLs() <-chan string
 }
 
-func Run(m Manufacturer, r io.Reader, workers int) {
+func Run(m Manufacturer, workers int) {
 	var wg sync.WaitGroup
-	in := make(chan Task)
+	in := make(chan Task, m.Bufsize())
 
 	wg.Add(1)
 	go func() {
-		s := bufio.NewScanner(r)
-		for s.Scan() {
-			text := strings.TrimSpace(s.Text())
-
-			if text == "" || strings.HasPrefix(text, "#") {
-				continue
-			}
-			in <- m.Create(text)
-		}
-		if s.Err() != nil {
-			log.Fatalf("error reading STDIN: %s", s.Err())
+		for url := range m.URLs() {
+			in <- m.Create(url)
+			fmt.Printf("Created task for: %s\n", url)
 		}
 		close(in)
 		wg.Done()

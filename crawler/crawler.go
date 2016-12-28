@@ -1,10 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/fatih/color"
@@ -40,21 +44,59 @@ func (h *HTTPTask) Process() {
 }
 
 func (h *HTTPTask) Output() {
-	secs := color.BlueString("%03fs", h.elapsed.Seconds())
+	secs := color.BlueString("[%6.2fs]", h.elapsed.Seconds())
 	fmt.Printf("%s %s %s\n", result[h.ok], secs, h.url)
 }
 
-type Manufacture struct{}
+type Manufacture struct {
+	source  io.Reader
+	bufsize int
+}
 
-func (f *Manufacture) Create(line string) Task {
+func (m *Manufacture) Bufsize() int {
+	return m.bufsize
+}
+
+func (m *Manufacture) Create(url string) Task {
 	h := new(HTTPTask)
-	h.url = line
+	h.url = url
 	return h
+}
+
+func (f *Manufacture) URLs() <-chan string {
+	urls := make(chan string, f.bufsize)
+	s := bufio.NewScanner(f.source)
+	go func() {
+		defer close(urls)
+		for s.Scan() {
+
+			line := strings.TrimSpace(s.Text())
+
+			if line == "" || strings.HasPrefix(line, "#") {
+				continue
+			}
+			urls <- line
+			fmt.Printf("Send URL: %s\n", line)
+		}
+	}()
+	if s.Err() != nil {
+		log.Fatalf("error reading: %s", s.Err())
+	}
+	return urls
+}
+
+func NewManufacture(r io.Reader, bufsize int) *Manufacture {
+	manufacture := new(Manufacture)
+	manufacture.source = r
+	manufacture.bufsize = bufsize
+	return manufacture
 }
 
 func main() {
 	workers := flag.Int("workers", 10, "number of workers")
+	bufsize := flag.Int("bufsize", 10, "size of tasks buffer")
 	flag.Parse()
-	m := new(Manufacture)
-	Run(m, os.Stdin, *workers)
+	// TODO: Add builder for mufacture?
+	m := NewManufacture(os.Stdin, *bufsize)
+	Run(m, *workers)
 }
