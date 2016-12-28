@@ -2,8 +2,8 @@ package main
 
 import (
 	"bufio"
+	"io"
 	"log"
-	"os"
 	"strings"
 	"sync"
 )
@@ -17,13 +17,13 @@ type Manufacturer interface {
 	Create(lint string) Task
 }
 
-func Run(m Manufacturer, workers int) {
+func Run(m Manufacturer, r io.Reader, workers int) {
 	var wg sync.WaitGroup
 	in := make(chan Task)
 
 	wg.Add(1)
 	go func() {
-		s := bufio.NewScanner(os.Stdin)
+		s := bufio.NewScanner(r)
 		for s.Scan() {
 			text := strings.TrimSpace(s.Text())
 

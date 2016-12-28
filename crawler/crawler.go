@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/fatih/color"
 )
@@ -14,12 +16,18 @@ var result = map[bool]string{
 }
 
 type HTTPTask struct {
-	url string
-	ok  bool
+	ok      bool
+	url     string
+	start   time.Time
+	elapsed time.Duration
 }
 
 func (h *HTTPTask) Process() {
+
+	h.start = time.Now()
 	resp, err := http.Get(h.url)
+	h.elapsed = time.Since(h.start)
+
 	if err != nil {
 		h.ok = false
 		return
@@ -32,7 +40,8 @@ func (h *HTTPTask) Process() {
 }
 
 func (h *HTTPTask) Output() {
-	fmt.Printf("%s %s\n", result[h.ok], h.url)
+	secs := color.BlueString("%03fs", h.elapsed.Seconds())
+	fmt.Printf("%s %s %s\n", result[h.ok], secs, h.url)
 }
 
 type Manufacture struct{}
@@ -44,8 +53,8 @@ func (f *Manufacture) Create(line string) Task {
 }
 
 func main() {
-	workers := flag.Int("workers", 1000, "number of workers")
+	workers := flag.Int("workers", 10, "number of workers")
 	flag.Parse()
 	m := new(Manufacture)
-	Run(m, *workers)
+	Run(m, os.Stdin, *workers)
 }
