@@ -27,7 +27,7 @@ type HTTPTask struct {
 }
 
 func (h *HTTPTask) Process() {
-
+	fmt.Printf("Got task for: %s\n", h.url)
 	h.start = time.Now()
 	resp, err := http.Get(h.url)
 	h.elapsed = time.Since(h.start)
@@ -93,8 +93,8 @@ func NewManufacture(r io.Reader, bufsize int) *Manufacture {
 }
 
 func main() {
-	workers := flag.Int("workers", 10, "number of workers")
-	bufsize := flag.Int("bufsize", 10, "size of tasks buffer")
+	workers := flag.Int("workers", 2, "number of workers")
+	bufsize := flag.Int("bufsize", 0, "size of tasks buffer")
 	flag.Parse()
 	// TODO: Add builder for mufacture?
 	m := NewManufacture(os.Stdin, *bufsize)
