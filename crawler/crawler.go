@@ -31,6 +31,7 @@ type HTTPTask struct {
 func (h *HTTPTask) Process() {
 	// fmt.Printf("Got task for: %s\n", h.url)
 	h.start = time.Now()
+	// TODO: Add timeout for http get request.
 	resp, err := http.Get(h.url)
 	h.elapsed = time.Since(h.start)
 
