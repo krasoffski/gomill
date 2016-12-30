@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -22,12 +23,13 @@ var result = map[bool]string{
 type HTTPTask struct {
 	ok      bool
 	url     string
+	bsize   int64
 	start   time.Time
 	elapsed time.Duration
 }
 
 func (h *HTTPTask) Process() {
-	fmt.Printf("Got task for: %s\n", h.url)
+	// fmt.Printf("Got task for: %s\n", h.url)
 	h.start = time.Now()
 	resp, err := http.Get(h.url)
 	h.elapsed = time.Since(h.start)
@@ -36,6 +38,11 @@ func (h *HTTPTask) Process() {
 		h.ok = false
 		return
 	}
+	defer resp.Body.Close()
+
+	// TODO: Think about handling error for Copy.
+	h.bsize, _ = io.Copy(ioutil.Discard, resp.Body)
+
 	if resp.StatusCode == http.StatusOK {
 		h.ok = true
 		return
@@ -45,7 +52,8 @@ func (h *HTTPTask) Process() {
 
 func (h *HTTPTask) Output() {
 	secs := color.BlueString("[%7.2fs]", h.elapsed.Seconds())
-	fmt.Printf("%s %s %s\n", result[h.ok], secs, h.url)
+	bsize := color.YellowString("[%10db]", h.bsize)
+	fmt.Printf("%s %s %s %s\n", result[h.ok], secs, bsize, h.url)
 }
 
 type Manufacture struct {
@@ -76,7 +84,7 @@ func (f *Manufacture) URLs() <-chan string {
 				continue
 			}
 			urls <- line
-			fmt.Printf("Send URL: %s\n", line)
+			// fmt.Printf("Send URL: %s\n", line)
 		}
 	}()
 	if s.Err() != nil {
@@ -101,7 +109,7 @@ func main() {
 
 	var reader io.Reader = os.Stdin
 	if *example > 0 {
-		reader = NewMozReader(*example)
+		reader = MozReader(*example)
 	}
 	m := NewManufacture(reader, *bufsize)
 	Run(m, *workers)

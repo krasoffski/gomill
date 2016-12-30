@@ -2,14 +2,18 @@ package main
 
 import (
 	"encoding/csv"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
-func NewMozReader(head int) *strings.Reader {
-	// TODO: Find a better solution for this.
+func MozReader(head int) *strings.Reader {
+	// TODO: Create a better solution for providing top sites.
+	fmt.Printf("Getting top 500 from moz.com... ")
+	start := time.Now()
 	resp, err := http.Get("https://moz.com/top500/domains/csv")
 
 	if err != nil {
@@ -40,7 +44,9 @@ func NewMozReader(head int) *strings.Reader {
 		urls = append(urls, url)
 
 	}
+
+	// Do not count join and new reader creation.
+	fmt.Printf("done in %.2fs\n", time.Since(start).Seconds())
 	// Skipping csv header.
 	return strings.NewReader(strings.Join(urls[1:], "\n"))
-
 }

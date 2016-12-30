@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 type Task interface {
@@ -17,6 +18,9 @@ type Manufacturer interface {
 }
 
 func Run(m Manufacturer, workers int) {
+
+	start := time.Now()
+
 	var wg sync.WaitGroup
 	in := make(chan Task, m.Bufsize())
 
@@ -24,7 +28,7 @@ func Run(m Manufacturer, workers int) {
 	go func() {
 		for url := range m.URLs() {
 			in <- m.Create(url)
-			fmt.Printf("Created task for: %s\n", url)
+			// fmt.Printf("Created task for: %s\n", url)
 		}
 		close(in)
 		wg.Done()
@@ -51,4 +55,6 @@ func Run(m Manufacturer, workers int) {
 	for t := range out {
 		t.Output()
 	}
+
+	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
 }
