@@ -38,7 +38,7 @@ strconv
 sync
 unicode/utf8
 ```
- 
+
 ### Getting documentation
 ```sh
 $ go doc 'github.com/krasoffski/gomill/unique' Strings
@@ -90,7 +90,7 @@ Showing top 10 nodes out of 95 (cum >= 3180ms)
 ```
 What is more, you are able to create a [Flame Graph].
 ```sh
-$ go-torch --file=output.svg multiplier multiplier.cpuprofile 
+$ go-torch --file=output.svg multiplier multiplier.cpuprofile
 INFO[14:49:02] Run pprof command: go tool pprof -raw -seconds 30 multiplier multiplier.cpuprofile
 INFO[14:49:02] Writing svg to output.svg
 $ open torch.svg
@@ -110,6 +110,28 @@ $ go build -ldflags="-X main.Version=0.2.1"
 $ ./race -version
 Version: 0.2.1
 ```
+
+### Running simple benchmark test
+Create simple benchmark test like bellow
+```go
+package popcount
+
+import "testing"
+
+func BenchmarkPopcount1(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		PopCount1(275032803564053945)
+	}
+}
+```
+Run test with options like `go test -bench=.` or `go test -bench=BenchmarkPopcount1`:
+```sh
+$ go test -bench=.
+PASS
+BenchmarkPopcount1-2	200000000	         9.36 ns/op
+ok  	github.com/krasoffski/gomill/gopl/ch02/popcount	2.824s
+```
+
 
 [binstale]: https://github.com/shurcooL/binstale
 [go-torch]: https://github.com/uber/go-torch
