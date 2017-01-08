@@ -5,7 +5,13 @@
 // values between minimum and maximum.
 package colormap
 
-import "image/color"
+type Range struct {
+	VMin, VMax float64
+}
+
+func (r *Range) Scale(val float64) (float64, float64, float64) {
+	return Scale(val, r.VMin, r.VMax)
+}
 
 // Scale returns red, green, blue values represented as float64 in range [0..1].
 func Scale(val, vmin, vmax float64) (float64, float64, float64) {
@@ -41,10 +47,10 @@ func Scale(val, vmin, vmax float64) (float64, float64, float64) {
 	return red, green, blue
 }
 
-// Colorize returns color.RGBA as interface color.Color where alpha set to 0xFF.
-func Colorize(val, vmin, vmax float64) color.Color {
-	// Note: alpha value is always 255.
-	var m float64 = 255
-	r, g, b := Scale(val, vmin, vmax)
-	return color.RGBA{uint8(r * m), uint8(g * m), uint8(b * m), uint8(m)}
-}
+// TODO: Think about func for uint8 returns.
+
+// func HexStr(val, vmin, vmax float64) string {
+// 	var m float64 = 255
+// 	r, g, b := Scale(val, vmin, vmax)
+// 	return fmt.Sprintf("%X%X%X", strconv.uint8(r * m), uint8(g * m), uint8(b * m), uint8(m)}
+// }
