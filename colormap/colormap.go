@@ -1,4 +1,8 @@
 // Package colormap implements a basic color mapping library.
+// With givin value, value minimum and value maximum (given range) returns
+// RGB color from Blue for minimum value to Red for maximum value.
+// Intermediate colors such as green, yellow and more might also be returned for
+// values between minimum and maximum.
 package colormap
 
 import "image/color"
@@ -37,9 +41,8 @@ func Scale(val, vmin, vmax float64) (float64, float64, float64) {
 	return red, green, blue
 }
 
-// RGBA transforms val from given range to a non-alpha color.Color.
-// Depending on val resulting color belongs to range from blue(vmin) to red(v max).
-func RGBA(val, vmin, vmax float64) color.Color {
+// Colorize returns color.RGBA as interface color.Color where alpha set to 0xFF.
+func Colorize(val, vmin, vmax float64) color.Color {
 	// Note: alpha value is always 255.
 	var m float64 = 255
 	r, g, b := Scale(val, vmin, vmax)
