@@ -16,6 +16,8 @@ func (r *Range) Correlate(val float64) (float64, float64, float64) {
 	return Correlate(val, r.VMin, r.VMax)
 }
 
+// HexStr returns red, green, blue values represented as six hex digits string
+// which begins with hash (#).
 func (r *Range) HexStr(val float64) string {
 	return HexStr(val, r.VMin, r.VMax)
 }
@@ -51,10 +53,11 @@ func Correlate(val, vmin, vmax float64) (float64, float64, float64) {
 	return r, g, b
 }
 
-// TODO: Think about func which returns three uint8 values.
-
+// HexStr returns red, green, blue values represented as six hex digits string
+// which begins with hash (#).
 func HexStr(val, vmin, vmax float64) string {
 	const m = 0xFF
 	r, g, b := Correlate(val, vmin, vmax)
-	return fmt.Sprintf("%X%X%X", uint8(r*m), uint8(g*m), uint8(b*m))
+	// TODO: Think about func which returns three uint8 values.
+	return fmt.Sprintf("#%X%X%X", uint8(r*m), uint8(g*m), uint8(b*m))
 }
