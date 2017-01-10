@@ -7,18 +7,24 @@ package htcmap
 
 import "fmt"
 
+// Range hold value minimum and value maximum (range) and provides the similar
+// functions as a module.
 type Range struct {
 	VMin, VMax float64
 }
 
+// AsFloat returns red, green, blue values each as float64 in range [0..1].
 func (r *Range) AsFloat(val float64) (float64, float64, float64) {
 	return AsFloat(val, r.VMin, r.VMax)
 }
 
+// AsUInt8 returns red, green, blue values each as uint8 in range [0..255].
 func (r *Range) AsUInt8(val float64) (uint8, uint8, uint8) {
 	return AsUInt8(val, r.VMin, r.VMax)
 }
 
+// AsStr returns red, green, blue values represented as six hex digits string
+// which begins with hash (#). It looks like a HTML RGB color #00FF00.
 func (r *Range) AsStr(val float64) string {
 	return AsStr(val, r.VMin, r.VMax)
 }
