@@ -59,5 +59,5 @@ func HexStr(val, vmin, vmax float64) string {
 	const m = 0xFF
 	r, g, b := Correlate(val, vmin, vmax)
 	// TODO: Think about func which returns three uint8 values.
-	return fmt.Sprintf("#%X%X%X", uint8(r*m), uint8(g*m), uint8(b*m))
+	return fmt.Sprintf("#%02X%02X%02X", uint8(r*m), uint8(g*m), uint8(b*m))
 }
