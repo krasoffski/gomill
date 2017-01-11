@@ -1,4 +1,4 @@
-# Miscellaneous Golang experiment library.
+# Miscellaneous Golang experiment library [![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://godoc.org/github.com/krasoffski/gomill)
 
 ## Notes about useful tools
 
@@ -138,3 +138,4 @@ ok  	github.com/krasoffski/gomill/gopl/ch02/popcount	2.824s
 [errcheck]: https://github.com/kisielk/errcheck
 [interfacer]: https://github.com/mvdan/interfacer/
 [Flame Graph]: https://github.com/brendangregg/FlameGraph
+[![GoDoc](https://godoc.org/github.com/krasoffski/gomill?status.svg)](https://godoc.org/github.com/krasoffski/gomill)
