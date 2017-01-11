@@ -1,4 +1,4 @@
-// race contains data race with resetting the timer.
+// Package race contains data race example with resetting the timer.
 // Execute "go run -race race.go" to get warring about data race.
 package main
 

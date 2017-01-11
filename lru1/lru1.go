@@ -1,4 +1,5 @@
-// Package lru1 implement Least Recently Used based on doubly linked list.
+// Package lru1 implement Least Recently Used cache
+// based on doubly linked list.
 package lru1
 
 import "container/list"

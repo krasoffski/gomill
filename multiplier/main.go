@@ -1,3 +1,5 @@
+// Package implement example of context based
+// asynchronous number multiplier.
 package main
 
 import (

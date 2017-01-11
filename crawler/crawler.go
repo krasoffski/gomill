@@ -1,3 +1,6 @@
+// Package implements basic asynchronous web sites crawler
+// with ability to specify number of workers and tasks.
+// Moreover, there is option to check moztop 500 sites as example.
 package main
 
 import (
