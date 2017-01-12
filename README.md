@@ -1,4 +1,7 @@
-# Golang experimental modules and utilities [![GoDoc](https://godoc.org/github.com/krasoffski/gomill?status.svg)](https://godoc.org/github.com/krasoffski/gomill)
+# Golang experimental modules and utilities 
+
+[![GoDoc](https://godoc.org/github.com/krasoffski/gomill?status.svg)](https://godoc.org/github.com/krasoffski/gomill)
+[![Go Report Card](https://goreportcard.com/badge/github.com/krasoffski/gomill)](https://goreportcard.com/report/github.com/krasoffski/gomill)
 
 ## Notes about useful tools
 
