@@ -1,4 +1,4 @@
-// Package htcmap implements a basic hot to cold ramp functions.
+// Package htcmap implements a hot to cold ramp functions.
 // With givin value, value minimum and value maximum (given range) returns
 // RGB color from Blue for minimum value to Red for maximum value.
 // Intermediate colors such as green, yellow and more might also be returned for
