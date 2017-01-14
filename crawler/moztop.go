@@ -11,9 +11,11 @@ import (
 )
 
 // MozReader creates new reader which represents list of sites addresses from
-// https://moz.com/top500 delimeted by new line charaster.
-func MozReader(head int, client *http.Client) *strings.Reader {
+// https://moz.com/top500 delimeted by new line charaster. Request timeout is 60s.
+func MozReader(head int) *strings.Reader {
 	// TODO: Create a better solution for providing top sites.
+
+	client := http.Client{Timeout: time.Second * 60}
 	fmt.Printf("Getting top 500 from moz.com... ")
 	start := time.Now()
 	resp, err := client.Get("https://moz.com/top500/domains/csv")
@@ -47,7 +49,7 @@ func MozReader(head int, client *http.Client) *strings.Reader {
 
 	}
 
-	// Do not count join and new reader creation.
+	// Do not count strings join and new reader creation.
 	fmt.Printf("done in %.2fs\n", time.Since(start).Seconds())
 	// Skipping csv header.
 	return strings.NewReader(strings.Join(urls[1:], "\n"))

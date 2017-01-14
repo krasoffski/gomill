@@ -23,17 +23,26 @@ var result = map[bool]string{
 	false: color.RedString("FAIL"),
 }
 
+// HTTPTask represents HTTP task with required for processing fields.
+// ok idecates that url is fetched without issues within timeout
+// url is URL to fetch
+// bsize is body size of responce
+// start is start time of processing
+// timeout is timeout for get request
+// elapsed is elapsed time for processing
 type HTTPTask struct {
 	ok      bool
 	url     string
 	bsize   int64
 	start   time.Time
+	timeout time.Duration
 	elapsed time.Duration
 }
 
-func (h *HTTPTask) Process(timeout time.Duration) {
-	// Remove creating new client for each task.
-	client := http.Client{Timeout: timeout}
+// Process processes and fills required fields of HTTPTask.
+func (h *HTTPTask) Process() {
+	// Remove creating new client for each task in case of global timeout.
+	client := http.Client{Timeout: h.timeout}
 
 	h.start = time.Now()
 	resp, err := client.Get(h.url)
@@ -55,6 +64,7 @@ func (h *HTTPTask) Process(timeout time.Duration) {
 	h.ok = false
 }
 
+// Output prints out HTTPTask result to standart output.
 func (h *HTTPTask) Output() {
 	secs := color.BlueString("[%7.2fs]", h.elapsed.Seconds())
 	bsize := color.YellowString("[%10db]", h.bsize)
@@ -62,8 +72,9 @@ func (h *HTTPTask) Output() {
 }
 
 type Manufacture struct {
-	source  io.Reader
-	bufsize int
+	source      io.Reader
+	bufsize     int
+	taskTimeout time.Duration
 }
 
 func (m *Manufacture) Bufsize() int {
@@ -73,6 +84,7 @@ func (m *Manufacture) Bufsize() int {
 func (m *Manufacture) Create(url string) Task {
 	h := new(HTTPTask)
 	h.url = url
+	h.timeout = m.taskTimeout
 	return h
 }
 
@@ -98,26 +110,32 @@ func (f *Manufacture) URLs() <-chan string {
 	return urls
 }
 
-func NewManufacture(r io.Reader, bufsize int) *Manufacture {
+func NewManufacture(r io.Reader, bufsize int, taskTimeout time.Duration) *Manufacture {
 	manufacture := new(Manufacture)
 	manufacture.source = r
 	manufacture.bufsize = bufsize
+	manufacture.taskTimeout = taskTimeout
 	return manufacture
 }
 
 func main() {
 	workers := flag.Int("workers", 2, "number of workers")
 	bufsize := flag.Int("bufsize", 0, "size of tasks buffer")
-	example := flag.Int("example", 0, "specify head of moz top, max 500")
-	timeout := flag.Duration("timeout", 5*time.Second, "request timeout")
+	topsite := flag.Int("topsite", 0, "specify head of moz top sites, max 500")
+	timeout := flag.Duration("timeout", 60*time.Second, "request timeout")
 
 	flag.Parse()
 
 	var reader io.Reader = os.Stdin
-	var client http.Client = http.Client{Timeout: *timeout}
-	if *example > 0 {
-		reader = MozReader(*example, &client)
+	if *topsite > 0 {
+		if *topsite < 500 {
+			reader = MozReader(*topsite)
+		} else {
+			fmt.Fprintf(os.Stderr,
+				"error value: %d, specify top sites within range [1, 500]\n", *topsite)
+			os.Exit(1)
+		}
 	}
-	m := NewManufacture(reader, *bufsize)
-	Run(m, *workers, *timeout)
+	m := NewManufacture(reader, *bufsize, *timeout)
+	Run(m, *workers)
 }

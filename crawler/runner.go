@@ -7,7 +7,7 @@ import (
 )
 
 type Task interface {
-	Process(time.Duration)
+	Process()
 	Output()
 }
 
@@ -17,7 +17,7 @@ type Manufacturer interface {
 	URLs() <-chan string
 }
 
-func Run(m Manufacturer, workers int, taskTimeout time.Duration) {
+func Run(m Manufacturer, workers int) {
 
 	start := time.Now()
 
@@ -28,7 +28,6 @@ func Run(m Manufacturer, workers int, taskTimeout time.Duration) {
 	go func() {
 		for url := range m.URLs() {
 			in <- m.Create(url)
-			// fmt.Printf("Created task for: %s\n", url)
 		}
 		close(in)
 		wg.Done()
@@ -40,7 +39,7 @@ func Run(m Manufacturer, workers int, taskTimeout time.Duration) {
 		wg.Add(1)
 		go func() {
 			for t := range in {
-				t.Process(taskTimeout)
+				t.Process()
 				out <- t
 			}
 			wg.Done()
