@@ -6,12 +6,12 @@ func TestCache(t *testing.T) {
 	size := 4
 	cache := NewCache(size)
 	items := []*Item{
-		&Item{"A", "a"},
-		&Item{"B", "b"},
-		&Item{"C", "c"},
-		&Item{"D", "d"},
-		&Item{"E", "e"},
-		&Item{"F", "f"},
+		{"A", "a"},
+		{"B", "b"},
+		{"C", "c"},
+		{"D", "d"},
+		{"E", "e"},
+		{"F", "f"},
 	}
 	for _, i := range items {
 		cache.Put(i.key, i.value)
