@@ -1,6 +1,6 @@
 // Package implements basic asynchronous web sites crawler
 // with ability to specify number of workers and tasks.
-// Moreover, there is option to check moztop 500 sites as example.
+// Moreover, there is an option to check moztop 500 sites as example.
 package main
 
 import (
@@ -31,11 +31,12 @@ type HTTPTask struct {
 	elapsed time.Duration
 }
 
-func (h *HTTPTask) Process() {
-	// fmt.Printf("Got task for: %s\n", h.url)
+func (h *HTTPTask) Process(timeout time.Duration) {
+	// Remove creating new client for each task.
+	client := http.Client{Timeout: timeout}
+
 	h.start = time.Now()
-	// TODO: Add timeout for http get request.
-	resp, err := http.Get(h.url)
+	resp, err := client.Get(h.url)
 	h.elapsed = time.Since(h.start)
 
 	if err != nil {
@@ -108,13 +109,15 @@ func main() {
 	workers := flag.Int("workers", 2, "number of workers")
 	bufsize := flag.Int("bufsize", 0, "size of tasks buffer")
 	example := flag.Int("example", 0, "specify head of moz top, max 500")
+	timeout := flag.Duration("timeout", 5*time.Second, "request timeout")
 
 	flag.Parse()
 
 	var reader io.Reader = os.Stdin
+	var client http.Client = http.Client{Timeout: *timeout}
 	if *example > 0 {
-		reader = MozReader(*example)
+		reader = MozReader(*example, &client)
 	}
 	m := NewManufacture(reader, *bufsize)
-	Run(m, *workers)
+	Run(m, *workers, *timeout)
 }

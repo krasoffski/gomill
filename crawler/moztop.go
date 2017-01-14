@@ -10,11 +10,13 @@ import (
 	"time"
 )
 
-func MozReader(head int) *strings.Reader {
+// MozReader creates new reader which represents list of sites addresses from
+// https://moz.com/top500 delimeted by new line charaster.
+func MozReader(head int, client *http.Client) *strings.Reader {
 	// TODO: Create a better solution for providing top sites.
 	fmt.Printf("Getting top 500 from moz.com... ")
 	start := time.Now()
-	resp, err := http.Get("https://moz.com/top500/domains/csv")
+	resp, err := client.Get("https://moz.com/top500/domains/csv")
 
 	if err != nil {
 		log.Fatalf("error performing request %s\n", err)
