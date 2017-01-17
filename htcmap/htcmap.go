@@ -76,7 +76,7 @@ func htc(val, vmin, vmax float64) (float64, float64, float64) {
 	} else if val < (vmin + 0.5*vrange) {
 		r = 0
 		b = 1 + 4*(vmin+0.25*vrange-val)/vrange
-	} else if val < (vmin+0.75*vrange)/vrange {
+	} else if val < (vmin + 0.75*vrange) {
 		b = 0
 		r = 4 * (val - vmin - 0.5*vrange) / vrange
 	} else {
