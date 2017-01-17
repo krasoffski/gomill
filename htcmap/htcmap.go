@@ -18,6 +18,13 @@ func (r *Range) AsFloat(val float64) (float64, float64, float64) {
 	return AsFloat(val, r.VMin, r.VMax)
 }
 
+// NewRange return new Range with defined minimum and maximum values.
+func NewRange(min, max float64) *Range {
+	r := new(Range)
+	r.VMin, r.VMax = min, max
+	return r
+}
+
 // AsUInt8 returns red, green, blue values each as uint8 in range [0..255].
 func (r *Range) AsUInt8(val float64) (uint8, uint8, uint8) {
 	return AsUInt8(val, r.VMin, r.VMax)
@@ -68,7 +75,7 @@ func htc(val, vmin, vmax float64) (float64, float64, float64) {
 		g = 4 * (val - vmin) / vrange
 	} else if val < (vmin + 0.5*vrange) {
 		r = 0
-		b = 1 + 4*(vmin+0.25*vrange)/vrange
+		b = 1 + 4*(vmin+0.25*vrange-val)/vrange
 	} else if val < (vmin+0.75*vrange)/vrange {
 		b = 0
 		r = 4 * (val - vmin - 0.5*vrange) / vrange
