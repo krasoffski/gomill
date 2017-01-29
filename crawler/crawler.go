@@ -28,24 +28,21 @@ var result = map[bool]string{
 // url is URL to fetch
 // bsize is body size of responce
 // start is start time of processing
-// timeout is timeout for get request
+// client is http.Client with timeout
 // elapsed is elapsed time for processing
 type HTTPTask struct {
 	ok      bool
 	url     string
 	bsize   int64
 	start   time.Time
-	timeout time.Duration
+	client  *http.Client
 	elapsed time.Duration
 }
 
 // Process processes and fills required fields of HTTPTask.
 func (h *HTTPTask) Process() {
-	// Remove creating new client for each task in case of global timeout.
-	client := http.Client{Timeout: h.timeout}
-
 	h.start = time.Now()
-	resp, err := client.Get(h.url)
+	resp, err := h.client.Get(h.url)
 	h.elapsed = time.Since(h.start)
 
 	if err != nil {
@@ -72,9 +69,9 @@ func (h *HTTPTask) Output() {
 }
 
 type Manufacture struct {
-	source      io.Reader
-	bufsize     int
-	taskTimeout time.Duration
+	source     io.Reader
+	bufsize    int
+	httpClient *http.Client
 }
 
 func (m *Manufacture) Bufsize() int {
@@ -84,7 +81,7 @@ func (m *Manufacture) Bufsize() int {
 func (m *Manufacture) Create(url string) Task {
 	h := new(HTTPTask)
 	h.url = url
-	h.timeout = m.taskTimeout
+	h.client = m.httpClient
 	return h
 }
 
@@ -110,12 +107,12 @@ func (f *Manufacture) URLs() <-chan string {
 	return urls
 }
 
-func NewManufacture(r io.Reader, bufsize int, taskTimeout time.Duration) *Manufacture {
-	manufacture := new(Manufacture)
-	manufacture.source = r
-	manufacture.bufsize = bufsize
-	manufacture.taskTimeout = taskTimeout
-	return manufacture
+func NewManufacture(r io.Reader, bufsize int, client *http.Client) *Manufacture {
+	m := new(Manufacture)
+	m.source = r
+	m.bufsize = bufsize
+	m.httpClient = client
+	return m
 }
 
 func main() {
@@ -136,6 +133,6 @@ func main() {
 			os.Exit(1)
 		}
 	}
-	m := NewManufacture(reader, *bufsize, *timeout)
+	m := NewManufacture(reader, *bufsize, &http.Client{Timeout: *timeout})
 	Run(m, *workers)
 }
