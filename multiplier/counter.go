@@ -23,9 +23,8 @@ func NewCounter(ctx *Context, wg *sync.WaitGroup) *Counter {
 		for {
 			select {
 			case counter.c <- counter.i:
-				counter.i += 1
+				counter.i++
 			case <-done:
-				// Add logging here.
 				fmt.Println("Counter terminated")
 				return
 			}
