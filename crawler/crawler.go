@@ -26,7 +26,7 @@ var result = map[bool]string{
 // HTTPTask represents HTTP task with required for processing fields.
 // ok idecates that url is fetched without issues within timeout
 // url is URL to fetch
-// bsize is body size of responce
+// bsize is body size of response
 // start is start time of processing
 // client is http.Client with timeout
 // elapsed is elapsed time for processing
