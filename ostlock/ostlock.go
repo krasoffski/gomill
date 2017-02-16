@@ -1,7 +1,7 @@
 package main
 
 /*
-#cgo LDFLAGS: -L.
+#cgo LDFLAGS: -L${SRCDIR}
 #cgo LDFLAGS: -lcheck_thread_id -lpthread
 
 extern void init_id();
