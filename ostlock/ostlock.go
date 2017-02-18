@@ -22,6 +22,7 @@ import (
 
 func init() {
 	runtime.GOMAXPROCS(1)
+	// 	runtime.LockOSThread()
 }
 
 func main() {
