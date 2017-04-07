@@ -7,7 +7,7 @@ package htcmap
 
 import "fmt"
 
-// Range hold value minimum and value maximum (range) and provides the similar
+// Range holds value minimum and value maximum (range) and provides the similar
 // functions as a module.
 type Range struct {
 	VMin, VMax float64
