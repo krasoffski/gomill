@@ -8,8 +8,7 @@ func (m *MemoSort) By(f func(i, j int) bool) func(i, j int) bool {
 }
 
 func (m *MemoSort) Less(i, j int) bool {
-	for k := 0; k < len(*m)-1; k++ {
-		fn := (*m)[k]
+	for _, fn := range *m {
 		switch {
 		case fn(i, j):
 			return true
