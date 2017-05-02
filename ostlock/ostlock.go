@@ -1,3 +1,4 @@
+// Package contains os thread lock example for goroutine execution.
 package main
 
 /*
