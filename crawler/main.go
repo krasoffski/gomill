@@ -11,7 +11,7 @@ import (
 
 func main() {
 	workers := flag.Int("workers", 2, "number of workers")
-	bufsize := flag.Int("bufsize", 0, "size of tasks buffer")
+	bufsize := flag.Int("bufsize", 0, "size of tasks' buffer")
 	topsite := flag.Int("topsite", 0, "specify head of moz top sites, max 500")
 	timeout := flag.Duration("timeout", 60*time.Second, "request timeout")
 
