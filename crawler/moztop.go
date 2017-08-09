@@ -16,7 +16,7 @@ func MozReader(head int) *strings.Reader {
 	// TODO: Create a better solution for providing top sites.
 
 	client := http.Client{Timeout: time.Second * 60}
-	fmt.Printf("Getting top 500 from moz.com... ")
+	fmt.Printf("Getting csv with top 500 from moz.com... ")
 	start := time.Now()
 	resp, err := client.Get("https://moz.com/top500/domains/csv")
 
@@ -26,7 +26,7 @@ func MozReader(head int) *strings.Reader {
 	if resp.StatusCode != http.StatusOK {
 		log.Fatalf("error getting moz top 500: %s\n", resp.Status)
 	}
-	if resp.Header.Get("Content-Type") != "text/csv" {
+	if !strings.Contains(resp.Header.Get("Content-Type"), "text/csv") {
 		log.Fatalln("error getting csv data, wrong conten type")
 	}
 	defer resp.Body.Close()

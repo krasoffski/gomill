@@ -26,11 +26,11 @@ func Run(m Manufacturer, workers int) {
 
 	wg.Add(1)
 	go func() {
+		defer wg.Done()
 		for url := range m.URLs() {
 			in <- m.Create(url)
 		}
 		close(in)
-		wg.Done()
 	}()
 
 	out := make(chan Task)
@@ -38,11 +38,11 @@ func Run(m Manufacturer, workers int) {
 	for i := 0; i < workers; i++ {
 		wg.Add(1)
 		go func() {
+			defer wg.Done()
 			for t := range in {
 				t.Process()
 				out <- t
 			}
-			wg.Done()
 		}()
 	}
 
