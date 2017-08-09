@@ -57,7 +57,7 @@ Enable profiling in your code.
 package main
 
 import (
-    // imports
+	// imports
 	"os"
 	"runtime/pprof"
 )
@@ -66,7 +66,7 @@ func main() {
 	f, _ := os.Create("multiplier.cpuprofile")
 	pprof.StartCPUProfile(f)
 	defer pprof.StopCPUProfile()
-    // code
+	// code
 }
 ```
 Than you can analyze report.
@@ -102,10 +102,10 @@ _Note: without application load CPU profile might be empty._
 
 
 ### Setting version
-Version defined in the source code of data race example.
+Version defined in the source code of data [race] example.
 ```go
 // Version of race example.
-var Version = "0.1.0
+var Version = "0.1.0"
 ```
 Inject new version using `-ldflags`.
 ```sh
@@ -141,3 +141,5 @@ ok  	github.com/krasoffski/gomill/gopl/ch02/popcount	2.824s
 [errcheck]: https://github.com/kisielk/errcheck
 [interfacer]: https://github.com/mvdan/interfacer/
 [Flame Graph]: https://github.com/brendangregg/FlameGraph
+
+[race]: https://godoc.org/github.com/krasoffski/gomill/race
