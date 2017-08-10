@@ -1,5 +1,5 @@
 // Package implements asynchronous web sites crawler
-// with ability to specify number of workers and tasks.
+// with ability to specify number of workers and size of tasks' buffer.
 // Moreover, there is an option to check moztop 500 sites as an example.
 package main
 
