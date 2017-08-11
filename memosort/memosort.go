@@ -1,6 +1,6 @@
 // Package memosort implements a function which keeps order from previous sort
 // for equal elements. It behaves as sort.Stable but only requires less function
-// as argument and can be used with sort.Slice.
+// as argument and should be used with sort.Slice.
 package memosort
 
 // MemoSort holds sort functions call order.
