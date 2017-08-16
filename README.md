@@ -100,6 +100,8 @@ $ open torch.svg
 ```
 _Note: without application load CPU profile might be empty._
 
+### Tracing  `go tool trace`
+
 
 ### Setting version
 Version defined in the source code of data [race] example.
