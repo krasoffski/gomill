@@ -57,16 +57,21 @@ Enable profiling in your code.
 package main
 
 import (
-	// imports
 	"os"
 	"runtime/pprof"
 )
 
 func main() {
-	f, _ := os.Create("multiplier.cpuprofile")
+	f, err := os.Create("multiplier.cpuprofile")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
 	pprof.StartCPUProfile(f)
 	defer pprof.StopCPUProfile()
-	// code
+
+	// Your program here
 }
 ```
 Than you can analyze report.
@@ -100,8 +105,37 @@ $ open torch.svg
 ```
 _Note: without application load CPU profile might be empty._
 
-### Tracing  `go tool trace`
+### Tracing with `go tool trace`
+Enable tracing in your code.
 
+```go
+package main
+
+import (
+	"os"
+	"runtime/trace"
+)
+
+func main() {
+	f, err := os.Create("trace.out")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	err = trace.Start(f)
+	if err != nil {
+		panic(err)
+	}
+	defer trace.Stop()
+
+	// Your program here
+}
+```
+Than you can open web brouser for investigation
+```sh
+$ go tool trace trace.out
+```
 
 ### Setting version
 Version defined in the source code of data [race] example.
