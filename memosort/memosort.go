@@ -9,8 +9,8 @@ package memosort
 // MemoSort holds sort functions call order.
 type MemoSort []func(i, j int) bool
 
-// By appends less function to slice and returns new less function which keeps
-// order from previous sort for equal elements.
+// By appends less function or functions to slice and returns new less function
+// which keeps order from previous sort function.
 // Don't define new type for less function for better documentation.
 func (m *MemoSort) By(f ...func(i, j int) bool) func(i, j int) bool {
 	*m = append(*m, f...)
