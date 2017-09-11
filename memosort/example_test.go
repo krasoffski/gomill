@@ -29,7 +29,7 @@ func ExampleMemoSort() {
 	)
 	sort.Slice(people, memo.Less)
 	fmt.Println("By Age and than by First name:\n", people)
-	// Output: By Age and than by First name:
-	//  [{Colin Miller 7}{Alice Brown 14} {Elizabeth Wilson 25} {Bob Davis 25}
+	// Output: By Age (ascending) and than by First name (descending):
+	//  [{Colin Miller 7} {Alice Brown 14} {Elizabeth Wilson 25} {Bob Davis 25}
 	//   {Alice Smith 25} {Bob Jones 28} {Elizabeth Johnson 33} {Alice Williams 75}]
 }
