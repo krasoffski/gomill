@@ -150,6 +150,19 @@ $ ./race -version
 Version: 0.2.1
 ```
 
+### Small binary file
+Remove the debugging information included in the executable
+binary file using `-ldflags`.
+
+```sh
+$ go build
+$ du -h crawler
+5.4M	crawler
+$ go build -ldflags="-s -w"
+$ du -h crawler
+3.6M	crawler
+```
+
 ### Running simple benchmark test
 Create simple benchmark test like bellow
 ```go
