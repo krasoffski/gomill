@@ -152,15 +152,22 @@ Version: 0.2.1
 
 ### Small binary file
 Remove the debugging information included in the executable
-binary file using `-ldflags`.
+binary file using `-ldflags`. Also re-pack binary using `upx`.
 
 ```sh
 $ go build
 $ du -h crawler
 5.4M	crawler
+```
+```sh
 $ go build -ldflags="-s -w"
 $ du -h crawler
 3.6M	crawler
+```
+```sh
+$ upx crawler
+$ du -h crawler
+1.4M	crawler
 ```
 
 ### Running simple benchmark test
