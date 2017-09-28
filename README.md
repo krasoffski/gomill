@@ -150,7 +150,7 @@ $ ./race -version
 Version: 0.2.1
 ```
 
-### Small binary file
+### Creating small binary file
 Remove the debugging information included in the executable
 binary file using `-ldflags`. Also re-pack binary using `upx`.
 
