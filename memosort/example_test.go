@@ -7,7 +7,7 @@ import (
 	"github.com/krasoffski/gomill/memosort"
 )
 
-func ExampleMemoSort() {
+func Example() {
 	people := []struct {
 		First, Last string
 		Age         int
@@ -28,8 +28,7 @@ func ExampleMemoSort() {
 		func(i, j int) bool { return people[i].First > people[j].First },
 	)
 	sort.Slice(people, memo.Less)
-	fmt.Println("By Age and than by First name:\n", people)
+	fmt.Println("By Age (ascending) and than by First name (descending):\n", people)
 	// Output: By Age (ascending) and than by First name (descending):
-	//  [{Colin Miller 7} {Alice Brown 14} {Elizabeth Wilson 25} {Bob Davis 25}
-	//   {Alice Smith 25} {Bob Jones 28} {Elizabeth Johnson 33} {Alice Williams 75}]
+	//  [{Colin Miller 7} {Alice Brown 14} {Elizabeth Wilson 25} {Bob Davis 25} {Alice Smith 25} {Bob Jones 28} {Elizabeth Johnson 33} {Alice Williams 75}]
 }
