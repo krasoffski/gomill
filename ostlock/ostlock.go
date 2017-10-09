@@ -78,6 +78,7 @@ func getGID() uint64 {
 	return n
 }
 
+// Emulation of long calculation function.
 func longCalculation(number int) {
 	fmt.Printf("+ number = %d, goid = %v, thread = ", number, getGID())
 	fmt.Println(syscall.Gettid())
@@ -88,6 +89,7 @@ func longCalculation(number int) {
 			a := math.Hypot(i, j)
 			if a > 1 {
 				score *= i
+				_ = score
 			}
 			_ = a
 		}
