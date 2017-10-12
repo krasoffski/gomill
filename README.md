@@ -174,6 +174,10 @@ __Note:__ in some cases `upx` might produce corrupted binary file. E.g.:
 $ go version
 go version go1.9.1 linux/amd64
 $ go build -ldflags="-s -w"
+$ upx --version
+upx 3.91
+UCL data compression library 1.03
+LZMA SDK version 9.22 beta
 $ upx ./pipes
 $ ./pipes -pipes 100
 Segmentation fault (core dumped)
