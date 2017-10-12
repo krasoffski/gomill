@@ -169,6 +169,15 @@ $ upx crawler
 $ du -h crawler
 1.4M	crawler
 ```
+__Note:__ in some cases `upx` might produce corrupted binary file. E.g.:
+```sh
+$ go version
+go version go1.9.1 linux/amd64
+$ go build -ldflags="-s -w"
+$ upx ./pipes
+$ ./pipes -pipes 100
+Segmentation fault (core dumped)
+```
 
 ### Running simple benchmark test
 Create simple benchmark test like bellow
