@@ -1,4 +1,4 @@
-package main
+package runner
 
 import (
 	"fmt"
@@ -6,17 +6,20 @@ import (
 	"time"
 )
 
+// Task
 type Task interface {
 	Process()
 	Output()
 }
 
+// Manufacturer
 type Manufacturer interface {
 	Bufsize() int
 	Create(line string) Task
 	URLs() <-chan string
 }
 
+// Run
 func Run(m Manufacturer, workers int) {
 
 	start := time.Now()

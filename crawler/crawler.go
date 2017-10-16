@@ -1,7 +1,7 @@
-// Package implements asynchronous web sites crawler
+// Package crawler implements asynchronous web sites crawler
 // with ability to specify number of workers and size of tasks' buffer.
 // Moreover, there is an option to check moztop 500 sites as an example.
-package main
+package crawler
 
 import (
 	"bufio"
@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/fatih/color"
+	"github.com/krasoffski/gomill/crawler/runner"
 )
 
 var result = map[bool]string{
@@ -76,7 +77,7 @@ func (m *manufacture) Bufsize() int {
 	return m.bufSize
 }
 
-func (m *manufacture) Create(url string) Task {
+func (m *manufacture) Create(url string) runner.Task {
 	h := new(httpTask)
 	h.url = url
 	h.client = m.httpClient

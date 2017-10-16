@@ -8,6 +8,9 @@ import (
 	"os"
 	"runtime"
 	"time"
+
+	"github.com/krasoffski/gomill/crawler"
+	"github.com/krasoffski/gomill/crawler/runner"
 )
 
 func main() {
@@ -22,7 +25,7 @@ func main() {
 	var reader io.Reader = os.Stdin
 	if *topsite > 0 {
 		if *topsite < 500 {
-			reader = MozReader(*topsite)
+			reader = crawler.MozReader(*topsite)
 		} else {
 			fmt.Fprintf(os.Stderr,
 				"error value: %d, specify top sites within range [1, 500]\n",
@@ -32,6 +35,6 @@ func main() {
 	}
 	// This call might be removed in the future.
 	runtime.GOMAXPROCS(*threads)
-	m := NewManufacture(reader, *bufsize, &http.Client{Timeout: *timeout})
-	Run(m, *workers)
+	m := crawler.NewManufacture(reader, *bufsize, &http.Client{Timeout: *timeout})
+	runner.Run(m, *workers)
 }
