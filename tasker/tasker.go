@@ -1,4 +1,4 @@
-// Package tasker provides high level interfaces for creating asynchronous
+// Package tasker provides high level interfaces for asynchronous
 // task creation and execution.
 package tasker
 
