@@ -1,6 +1,5 @@
-// Package crawler implements asynchronous web sites crawler
-// with ability to specify number of workers and size of tasks' buffer.
-// Moreover, there is an option to check moztop 500 sites as an example.
+// Package crawler implements asynchronous web sites crawler using interfaces
+// from tasker and ability to specify number of workers and size of tasks' buffer.
 package crawler
 
 import (
@@ -60,33 +59,33 @@ func (h *httpTask) Process() {
 	h.ok = false
 }
 
-// Output prints out HTTPTask result to standart output.
+// Output prints out Task result to standart output.
 func (h *httpTask) Output() {
 	secs := color.BlueString("[%7.2fs]", h.elapsed.Seconds())
 	bsize := color.YellowString("[%10db]", h.bsize)
 	fmt.Printf("%s %s %s %s\n", result[h.ok], secs, bsize, h.url)
 }
 
-type manufacture struct {
+type taskBuilder struct {
 	source     io.Reader
 	bufSize    int
 	httpClient *http.Client
 }
 
-func (m *manufacture) BufSize() int {
-	return m.bufSize
+func (tb *taskBuilder) BufSize() int {
+	return tb.bufSize
 }
 
-func (m *manufacture) Create(url string) tasker.Task {
+func (tb *taskBuilder) Create(url string) tasker.Task {
 	h := new(httpTask)
 	h.url = url
-	h.client = m.httpClient
+	h.client = tb.httpClient
 	return h
 }
 
-func (m *manufacture) Items() <-chan string {
-	urls := make(chan string, m.bufSize)
-	s := bufio.NewScanner(m.source)
+func (tb *taskBuilder) Items() <-chan string {
+	urls := make(chan string, tb.bufSize)
+	s := bufio.NewScanner(tb.source)
 	go func() {
 		defer close(urls)
 		for s.Scan() {
@@ -105,12 +104,14 @@ func (m *manufacture) Items() <-chan string {
 	return urls
 }
 
-func (m *manufacture) Run(workers int) {
-	tasker.Run(m, workers)
+// Run creates tasks and process them with given number of workers.
+func (tb *taskBuilder) Run(workers int) {
+	tasker.Run(tb, workers)
 }
 
-func New(r io.Reader, bufSize int, client *http.Client) *manufacture {
-	m := new(manufacture)
+// New creates and initializes new task builder.
+func New(r io.Reader, bufSize int, client *http.Client) tasker.Builder {
+	m := new(taskBuilder)
 	m.source = r
 	m.bufSize = bufSize
 	m.httpClient = client
