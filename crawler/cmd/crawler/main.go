@@ -37,7 +37,7 @@ func mozTop(head int) io.Reader {
 	}
 	defer resp.Body.Close()
 
-	urls := make([]string, head)
+	var urls []string
 	reader := csv.NewReader(resp.Body)
 
 	for i := 0; i <= head; i++ {
