@@ -70,7 +70,7 @@ func main() {
 
 	var reader io.Reader = os.Stdin
 	if *topsite > 0 {
-		if *topsite < 500 {
+		if *topsite <= 500 {
 			reader = mozTop(*topsite)
 		} else {
 			fmt.Fprintf(os.Stderr,
@@ -84,5 +84,6 @@ func main() {
 	m := crawler.New(reader, *bufsize, &http.Client{Timeout: *timeout})
 	start := time.Now()
 	m.Run(*workers)
-	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
+	done := time.Since(start)
+	fmt.Printf("%v elapsed\n", done-(done%time.Millisecond))
 }
