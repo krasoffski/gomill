@@ -1,4 +1,4 @@
-package runner
+package tasker
 
 import (
 	"sync"

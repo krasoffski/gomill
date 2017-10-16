@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/fatih/color"
-	"github.com/krasoffski/gomill/crawler/runner"
+	"github.com/krasoffski/gomill/tasker"
 )
 
 var result = map[bool]string{
@@ -77,7 +77,7 @@ func (m *manufacture) Bufsize() int {
 	return m.bufSize
 }
 
-func (m *manufacture) Create(url string) runner.Task {
+func (m *manufacture) Create(url string) tasker.Task {
 	h := new(httpTask)
 	h.url = url
 	h.client = m.httpClient
@@ -106,7 +106,7 @@ func (m *manufacture) URLs() <-chan string {
 }
 
 func (m *manufacture) Run(workers int) {
-	runner.Run(m, workers)
+	tasker.Run(m, workers)
 }
 
 func New(r io.Reader, bufSize int, client *http.Client) *manufacture {
