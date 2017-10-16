@@ -17,20 +17,23 @@ type Builder interface {
 	BufSize() int
 	Create(line string) Task
 	Items() <-chan string
+	Run(workers int)
 }
 
 // Run creates tasks from slice of strings and performs this task.
 // After task completion method Output is invoked for each tasks.
 // Argument workers respresents number of goroutines for performing tasks.
-func Run(m Builder, workers int) {
+// This function can used as a reference implemention of Run method for
+// satisfying Builder interface.
+func Run(b Builder, workers int) {
 	var wg sync.WaitGroup
-	in := make(chan Task, m.BufSize())
+	in := make(chan Task, b.BufSize())
 
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for url := range m.Items() {
-			in <- m.Create(url)
+		for url := range b.Items() {
+			in <- b.Create(url)
 		}
 		close(in)
 	}()
