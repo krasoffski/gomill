@@ -73,7 +73,7 @@ type manufacture struct {
 	httpClient *http.Client
 }
 
-func (m *manufacture) Bufsize() int {
+func (m *manufacture) BufSize() int {
 	return m.bufSize
 }
 
@@ -84,7 +84,7 @@ func (m *manufacture) Create(url string) tasker.Task {
 	return h
 }
 
-func (m *manufacture) URLs() <-chan string {
+func (m *manufacture) Items() <-chan string {
 	urls := make(chan string, m.bufSize)
 	s := bufio.NewScanner(m.source)
 	go func() {

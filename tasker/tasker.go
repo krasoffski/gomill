@@ -12,20 +12,20 @@ type Task interface {
 
 // Manufacturer describes
 type Manufacturer interface {
-	Bufsize() int
+	BufSize() int
 	Create(line string) Task
-	URLs() <-chan string
+	Items() <-chan string
 }
 
 // Run executes
 func Run(m Manufacturer, workers int) {
 	var wg sync.WaitGroup
-	in := make(chan Task, m.Bufsize())
+	in := make(chan Task, m.BufSize())
 
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		for url := range m.URLs() {
+		for url := range m.Items() {
 			in <- m.Create(url)
 		}
 		close(in)
