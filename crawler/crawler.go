@@ -97,7 +97,6 @@ func (m *manufacture) URLs() <-chan string {
 				continue
 			}
 			urls <- line
-			// fmt.Printf("Send URL: %s\n", line)
 		}
 	}()
 	if s.Err() != nil {
@@ -106,7 +105,11 @@ func (m *manufacture) URLs() <-chan string {
 	return urls
 }
 
-func NewManufacture(r io.Reader, bufSize int, client *http.Client) *manufacture {
+func (m *manufacture) Run(workers int) {
+	runner.Run(m, workers)
+}
+
+func New(r io.Reader, bufSize int, client *http.Client) *manufacture {
 	m := new(manufacture)
 	m.source = r
 	m.bufSize = bufSize

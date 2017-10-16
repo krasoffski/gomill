@@ -1,29 +1,24 @@
 package runner
 
 import (
-	"fmt"
 	"sync"
-	"time"
 )
 
-// Task
+// Task describes
 type Task interface {
 	Process()
 	Output()
 }
 
-// Manufacturer
+// Manufacturer describes
 type Manufacturer interface {
 	Bufsize() int
 	Create(line string) Task
 	URLs() <-chan string
 }
 
-// Run
+// Run executes
 func Run(m Manufacturer, workers int) {
-
-	start := time.Now()
-
 	var wg sync.WaitGroup
 	in := make(chan Task, m.Bufsize())
 
@@ -57,6 +52,4 @@ func Run(m Manufacturer, workers int) {
 	for t := range out {
 		t.Output()
 	}
-
-	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
 }

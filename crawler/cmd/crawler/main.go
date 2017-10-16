@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/krasoffski/gomill/crawler"
-	"github.com/krasoffski/gomill/crawler/runner"
 )
 
 func main() {
@@ -35,6 +34,8 @@ func main() {
 	}
 	// This call might be removed in the future.
 	runtime.GOMAXPROCS(*threads)
-	m := crawler.NewManufacture(reader, *bufsize, &http.Client{Timeout: *timeout})
-	runner.Run(m, *workers)
+	m := crawler.New(reader, *bufsize, &http.Client{Timeout: *timeout})
+	start := time.Now()
+	m.Run(*workers)
+	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
 }
