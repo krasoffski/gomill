@@ -62,8 +62,8 @@ func New(input []string, bufSize int) tasker.Builder {
 func Example() {
 	input := []string{"apple", "orange", "", "cherry"}
 	u := New(input, 10)
+	// NOTE: the output order might be different due to async processing.
 	u.Run(5)
-	// NOTE: the order might be different due to async processing.
 	// Output: APPLE
 	// ORANGE
 	// CHERRY
