@@ -20,10 +20,10 @@ type Builder interface {
 	Run(workers int)
 }
 
-// Run creates tasks from slice of strings and performs this task.
-// After task completion method Output is invoked for each tasks.
-// Argument workers respresents number of goroutines for performing tasks.
-// This function can used as a reference implemention of Run method for
+// Run creates tasks from sequence of strings and process these task.
+// Method Output is invoked for each tasks after task completion.
+// Argument 'workers' respresents number of goroutines for performing tasks.
+// This function can be used as a reference implemention of Run method for
 // satisfying Builder interface.
 func Run(b Builder, workers int) {
 	var wg sync.WaitGroup
