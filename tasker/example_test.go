@@ -8,17 +8,17 @@ import (
 )
 
 type upperTask struct {
-	in, out string
+	in, result string
 }
 
 // Process processes and fills required fields of upperTask.
 func (u *upperTask) Process() {
-	u.out = strings.ToUpper(u.in)
+	u.result = strings.ToUpper(u.in)
 }
 
 // Output prints out Task result to standart output.
 func (u *upperTask) Output() {
-	fmt.Printf("%s ", u.out)
+	fmt.Printf("%s ", u.result)
 }
 
 type taskBuilder struct {
