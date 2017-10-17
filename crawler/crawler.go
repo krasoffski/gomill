@@ -105,7 +105,7 @@ func (tb *taskBuilder) Items() <-chan string {
 }
 
 // Run processes the tasks which are created internally using Create method.
-// It blocks execution and waits till all tasks completed.
+// It blocks execution and waits till all tasks are completed.
 func (tb *taskBuilder) Run(workers int) {
 	tasker.Run(tb, workers)
 }
