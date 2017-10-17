@@ -36,7 +36,7 @@ func (tb *taskBuilder) Create(s string) tasker.Task {
 
 // Items prepares strings from slice and send them to chan.
 func (tb *taskBuilder) Items() <-chan string {
-	ch := make(chan string, tb.bufSize)
+	ch := make(chan string)
 	go func() {
 		defer close(ch)
 		for _, word := range tb.words {
