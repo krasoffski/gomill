@@ -64,6 +64,5 @@ func Example() {
 	u := New(input, 10)
 	// NOTE: the output order might be different due to async processing.
 	u.Run(5)
-
 	// Output: APPLE ORANGE CHERRY
 }
