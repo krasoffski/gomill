@@ -18,7 +18,7 @@ func (u *upperTask) Process() {
 
 // Output prints out Task result to standart output.
 func (u *upperTask) Output() {
-	fmt.Printf("%s\n", u.out)
+	fmt.Printf("%s ", u.out)
 }
 
 type taskBuilder struct {
@@ -64,7 +64,5 @@ func Example() {
 	u := New(input, 10)
 	// NOTE: the output order might be different due to async processing.
 	u.Run(5)
-	// Output: APPLE
-	// ORANGE
-	// CHERRY
+	// Output: APPLE ORANGE CHERRY
 }
