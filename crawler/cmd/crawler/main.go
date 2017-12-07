@@ -85,6 +85,6 @@ func main() {
 	start := time.Now()
 	m.Run(*workers)
 	done := time.Since(start)
-	// Removing trailing milliseconds to get precision in seconds.
+	// Removing trailing micro and nono seconds to get precision in milliseconds.
 	fmt.Printf("%v elapsed\n", done-(done%time.Millisecond))
 }
