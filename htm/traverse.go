@@ -2,21 +2,14 @@ package htm
 
 import "golang.org/x/net/html"
 
-// TraverseNode walks through tree of nodes and add visited node to the slice if
-// all skip functions returns false for this node.
-func TraverseNode(n *html.Node, nodes []*html.Node, skip ...func(*html.Node) bool) []*html.Node {
+// TraverseNode walks through tree of nodes and adds visited node to the slice
+// if check function returns true for this node.
+func TraverseNode(n *html.Node, check func(*html.Node) bool, nodes []*html.Node) []*html.Node {
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		skipped := false
-		for _, fn := range skip {
-			if fn(c) {
-				skipped = true
-				break
-			}
-		}
-		if !skipped {
+		if check(c) {
 			nodes = append(nodes, c)
 		}
-		nodes = TraverseNode(c, nodes, skip...)
+		nodes = TraverseNode(c, check, nodes)
 	}
 	return nodes
 }

@@ -2,7 +2,8 @@ package htm
 
 import "golang.org/x/net/html"
 
-// FindNode ...
+// FindNode walks through tree of nodes and call check function for each one and
+// returns node if check function returns true.
 func FindNode(n *html.Node, check func(*html.Node) bool) *html.Node {
 	if check(n) {
 		return n
@@ -14,6 +15,5 @@ func FindNode(n *html.Node, check func(*html.Node) bool) *html.Node {
 			return node
 		}
 	}
-
 	return nil
 }
