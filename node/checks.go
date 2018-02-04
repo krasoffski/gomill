@@ -2,8 +2,8 @@ package htm
 
 import "golang.org/x/net/html"
 
-// All ...
-func All(funcs ...func(*html.Node) bool) func(*html.Node) bool {
+// AllFn ...
+func AllFn(funcs ...func(*html.Node) bool) func(*html.Node) bool {
 	return func(n *html.Node) bool {
 		for _, fn := range funcs {
 			if !fn(n) {
@@ -14,8 +14,8 @@ func All(funcs ...func(*html.Node) bool) func(*html.Node) bool {
 	}
 }
 
-// Any ...
-func Any(funcs ...func(*html.Node) bool) func(*html.Node) bool {
+// AnyFn ...
+func AnyFn(funcs ...func(*html.Node) bool) func(*html.Node) bool {
 	return func(n *html.Node) bool {
 		for _, fn := range funcs {
 			if fn(n) {
