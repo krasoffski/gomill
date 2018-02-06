@@ -2,28 +2,10 @@ package node
 
 import "golang.org/x/net/html"
 
-// AllFn ...
-func AllFn(funcs ...func(*html.Node) bool) func(*html.Node) bool {
-	return all(true, funcs...)
-}
-
-// AllFnN ...
-func AllFnN(funcs ...func(*html.Node) bool) func(*html.Node) bool {
-	return all(false, funcs...)
-}
-
-// AnyFn ...
-func AnyFn(funcs ...func(*html.Node) bool) func(*html.Node) bool {
-	return any(true, funcs...)
-}
-
-// AnyFnN ...
-func AnyFnN(funcs ...func(*html.Node) bool) func(*html.Node) bool {
-	return any(false, funcs...)
-}
-
-// AllFn ...
-func all(okRes bool, funcs ...func(*html.Node) bool) func(*html.Node) bool {
+// AllFn gets a slice of funcs and returns new func. This function calls each
+// func from the slice with given *html.Node and returns okRes if all calls of
+// func returns true otherwise this function returns !okRes.
+func AllFn(okRes bool, funcs ...func(*html.Node) bool) func(*html.Node) bool {
 	return func(n *html.Node) bool {
 		for _, fn := range funcs {
 			if !fn(n) {
@@ -34,7 +16,11 @@ func all(okRes bool, funcs ...func(*html.Node) bool) func(*html.Node) bool {
 	}
 }
 
-func any(okRes bool, funcs ...func(*html.Node) bool) func(*html.Node) bool {
+// AnyFn gets a slice of funcs and returns new func. This function calls each
+// func from the slice with given *html.Node and returns okRes if any call of
+// func returns true. If all calls returns false otherwise this function returns
+// !okRes.
+func AnyFn(okRes bool, funcs ...func(*html.Node) bool) func(*html.Node) bool {
 	return func(n *html.Node) bool {
 		for _, fn := range funcs {
 			if fn(n) {
