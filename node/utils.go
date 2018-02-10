@@ -11,3 +11,21 @@ func Attr(n *html.Node, key string) (string, bool) {
 	}
 	return "", false
 }
+
+// Children ...
+func Children(n *html.Node, check func(*html.Node) bool) []*html.Node {
+	nodes := make([]*html.Node, 0)
+
+	if check == nil {
+		check = func(*html.Node) bool { return true }
+	}
+
+	for c := n.FirstChild; c != nil; c = c.NextSibling {
+		if !check(c) {
+			continue
+		}
+		nodes = append(nodes, c)
+
+	}
+	return nodes
+}
