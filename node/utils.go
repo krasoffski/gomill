@@ -2,7 +2,7 @@ package node
 
 import "golang.org/x/net/html"
 
-// Attr ...
+// Attr returns attribute of node by given key.
 func Attr(n *html.Node, key string) (string, bool) {
 	for _, a := range n.Attr {
 		if a.Key == key {
@@ -12,16 +12,17 @@ func Attr(n *html.Node, key string) (string, bool) {
 	return "", false
 }
 
-// Children ...
-func Children(n *html.Node, check func(*html.Node) bool) []*html.Node {
+// Children returns slice of nodes where each node is a child of given node and
+// filter function returns true for corresponding child node.
+func Children(n *html.Node, filter func(*html.Node) bool) []*html.Node {
 	nodes := make([]*html.Node, 0)
 
-	if check == nil {
-		check = func(*html.Node) bool { return true }
+	if filter == nil {
+		filter = func(*html.Node) bool { return true }
 	}
 
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
-		if !check(c) {
+		if !filter(c) {
 			continue
 		}
 		nodes = append(nodes, c)
