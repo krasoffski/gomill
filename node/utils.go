@@ -2,7 +2,7 @@ package node
 
 import "golang.org/x/net/html"
 
-// Attr returns attribute of node by given key.
+// Attr returns attribute of node by given key if any.
 func Attr(n *html.Node, key string) (string, bool) {
 	for _, a := range n.Attr {
 		if a.Key == key {
