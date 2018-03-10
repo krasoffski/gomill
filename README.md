@@ -2,6 +2,7 @@
 
 [![GoDoc](https://godoc.org/github.com/krasoffski/gomill?status.svg)](https://godoc.org/github.com/krasoffski/gomill)
 [![Go Report Card](https://goreportcard.com/badge/github.com/krasoffski/gomill)](https://goreportcard.com/report/github.com/krasoffski/gomill)
+[![Code Climate](https://codeclimate.com/github/krasoffski/gomill/badges/gpa.svg)](https://codeclimate.com/github/krasoffski/gomill)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/krasoffski)
 
 ## Notes about useful tools
