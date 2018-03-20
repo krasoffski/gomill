@@ -1,6 +1,10 @@
 package node
 
-import "golang.org/x/net/html"
+import (
+	"bytes"
+
+	"golang.org/x/net/html"
+)
 
 // Attr returns attribute of node by given key if any.
 func Attr(n *html.Node, key string) (string, bool) {
@@ -29,4 +33,13 @@ func Children(n *html.Node, filter func(*html.Node) bool) []*html.Node {
 
 	}
 	return nodes
+}
+
+// JoinData returns attribute of node by given key if any.
+func JoinData(n ...*html.Node) string {
+	var buf bytes.Buffer
+	for _, m := range n {
+		buf.WriteString(m.Data)
+	}
+	return buf.String()
 }
